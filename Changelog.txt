@@ -1,0 +1,150 @@
+******* 2.3.3 - 09/03/24 *******
+
+	- Restored DetailTex functionality on volumetric clouds for modders
+
+******* 2.3.2 - 28/02/24 *******
+
+- Fixes:
+	- Fix missing ocean and other effects when applying any of the in-game video settings in flight or when changing game resolution or monitor
+	- Fix occasional nullref spam caused by ocean failing to load when switching ships from tracking station or loading a savegame
+	- Fix black sky issue on intel integrated graphics and Macs
+	- Fix white sky issue on slow GPUs when generating atmos
+
+******* 2.3.1 - 30/01/24 *******
+
+- New features:
+	- Make it possible to combine SMAA and TAA for better AA and the best of both worlds
+	- Make it possible to disable TAA below a configurable fps threshold (26  by default) and fallback to SMAA-only if TAA and SMAA are both enabled
+	- Support for new non-Kerbin homeworld name (see latest versions of Kopernicus)
+
+- Fixes:
+	- Fixed V4 clouds not working correctly on Mac and appearing blocky and undefined (ie with no noises applied)
+	- Fixed several issues leading to a black sky on all platforms, a few cases remain which I'm investigating
+	- Fixed error leading to a double image with an old image of the craft stuck on screen, notably when switching to Jool from tracking station
+	- Fixed saturated planets in scaled space being caused by the scaled color adjustment feature in Scatterer
+	- Fixed stock ocean occasionally reappearing and conflicting with scatterer ocean
+	- Fixed black scaled scattering when switching to bodies from tracking station
+	- Fixed atmo failing to load if EVE integration is disabled in the main settings
+	
+
+******* 2.3.0 - 22/12/23 *******
+
+New features:
+	- New lighting model: Better handling of multiple scattering and better interplay of direct lighting and ambient, clouds look fluffier.
+	- Light volume: Long-distance cloud shadows and ambient handled via separate system. Updates in the background, has its own settings.
+	- Physically accurate godrays: Scatterer feature, clouds can now cast godrays using the above light volume, with better physical accuracy than previous methods. Can also be used for terrain shadows, see settings in the KSC screen Scatterer menu.
+	- Screenshot mode: Disable TAA and other temporal effects when taking screenshots. Make screenshots compatible with supersizing and free of temporal artifacts/blur
+	- Native cubemap support: Cubemaps are now loaded as a native hardware cubemap instead of being sampled as 6 separate textures, improves performance on configs using cubemaps, notably RSS.
+	- Additional temporal upscaling settings including 3x, 6x, 9x and 12x for better quality/performance tuning.
+	- Exposed phase functions for single and multiple scattering for clouds
+	- Added signed distance fields to skip empty space when raymarching, limited performance gains, see wiki https://github.com/LGhassen/EnvironmentalVisualEnhancements/wiki/Signed-Distance-Fields
+	- Added scatterer option to use only SMAA in IVA when using TAA, to limit blurring on droplets and other elements because some cockpits have glass that is treated as opaque.
+	- Added scatterer setting to reduce the extinction tint on sunlight at noon
+	- Added option to unload clouds painters (to free up memory or load new textures)
+	
+Configs:
+	- Tweaked Kerbin's atmosphere to make sunsets/sunrises look better with the new godrays
+	- Tweaked all cloud configs to look better with the new lighting (go see the new settings on Eve)
+	- Separated Scatterer configs into separate folder "StockScattererConfigs"
+
+Fixes:
+	- Fixed distracting black artifacts on the clouds that would appear around the horizon or in movement
+	- Fixed blue edges/outline which appear when a cloud layer is seen through an other, typically when looking at clouds through fog or rain
+	- Fixed visible "barrier" between fog/rain and the background
+	- Fixed cloud upwards noise animating way faster than it should in timewarp, causing artifacts
+	- Fixed ozone causing a strange tint to appear on crafts in orbit with rescale
+
+
+******* 2.2.1 - 26/08/23 *******
+- Fixed textures not loading when using steam launch options
+- Fixed low fps in main menu
+
+******* 2.2.0 - 20/08/23 *******
+
+New features:
+	- Cockpit Droplets: Droplets and streaks will now be seen in IVA view moving along windows and windshields when raining or flying through a dense cloud, they refract the background and evaporate at supersonic speeds. Their motion matches the craft speed and movement direction
+	- Separate sound file can be played in IVA (used here to add noise of rain hitting winshield)
+	- Load on demand (reduce RAM and VRAM usage, faster load times if not using community fixes)
+	- BC4 texture support
+	- Higher quality cloud shadows closely matching volumetrics (when volumetrics are enabled)
+	- New orbit mode for temporal upscaling, improving image quality and stability from orbit and long distances, can be disabled if needed
+	- Ozone layer support for Scatterer
+	
+Configs:
+	- Rain on Kerbin is now more frequent and it's now always raining somewhere on the planet
+	- Fixed some seams on Kerbin cloud textures
+	- Kerbin's atmo tweaked to be more earth-like
+	- Added falling snow on Laythe
+	- Diffused cloud cover on Laythe poles, to allow for occasional views of Jool from the poles, previously cloud cover was constant
+
+Fixes
+	- Clouds:
+		- Improved temporal upscaling to work better in motion and from orbit, should have less artifacts and blurring
+		- Fixed high temporal upscaling settings resulting in weird line artifacts on clouds
+		- Fix artifacts on cloud edges intersecting terrain/craft
+		- Fix issue on cloud self-shadowing forming a stepping artifact near tops of cloud layers
+		- Fix cubemap support for flowmaps
+		- Clouds now render in HDR buffers if HDR is enabled (less banding if you have a HDR monitor)
+		- Fix teapplying a volumetrics layer in map view breaking PQS terrain
+		
+	- Scatterer:
+		- Fixed HDR support in Scatterer (both with and without TAA), sun can now be seen gliting off reflective crafts with TU (see images on patreon post) if using HDR and bloom from TUFX.
+		- Fix mie scattering ending at a visible line before the terminator when using thick mie scattering
+		- Fix sunflare being offset from the sun during high timewarp
+		- Improvements to Scatterer TAA: Less ghosting and sharper TAA algorithm
+		- Fix sky not reflecting off crafts in OpenGL
+	
+
+Other:
+
+******* 2.1.3 - 11/06/23 *******
+- Fixed OpenGL (Mac and Linux) issue where Jool clouds are cut off before the horizon from high altitude
+- Improved scatterer wave interactions to make boats and sea planes easier without overriding the stock water drag (no longer affecting the max speed of submarines), only removed the excessive drag when hitting waves
+
+******* 2.1.2 - 07/06/23 *******
+- Fixed engine/rocket sounds getting disabled when there is a lot of thunder
+- Fixed clouds disabling in map view when going under the surface of Jool
+- Fixed Jool flowmap not being paintable because of duplicated 2d layers
+
+******* 2.1.1 - 28/05/23 *******
+- Fixed Kerbal IVA flashing repeatedly on screen in some cases
+- Fixed "Invalid scenehandler" log spam
+- Fixed repetitive crashing in some cases
+- Fixed terrain tiles detaching and creating holes in some cases
+
+******* 2.1.0 - 21/05/23 *******
+
+New features:
+	- Particle effects, used for actual rain (with splashes on surfaces), snow and dust + sound effects
+	- Lightning strikes, with sound effects, light emission and dedicated bolt textures
+	- Flowmaps to animate both the scaled texture and the volumetrics, used on Jool for swirls and moving bands
+
+Configs:
+	- Jool config: moving clouds, swirls and bands. Best enjoyed in timewarp. Ability to go much further down inside Jool than the previous -250m limit. Higher quality cloud settings than on the other planets.
+	- Kerbin: Added lots of anvil clouds, rain and lightning placed under/around anvils. Decreased frequency of fog and rain and fixed fog happening around the planet all at once. The top cloud layer is now wispier.
+	- Duna: made the dust storms less noisy and made them darken the ground. Added a few rotating dust devils.
+	- Laythe: Plumes now move in the direction of the wind not just upwards.
+
+Fixes:
+	- Fixed hard edges on the rain on Kerbin
+	- Fixed eclipses on volumetrics and scattering, not just the sky. Eclipses on Laythe are now scary
+	- Fixed harsh line/cutoff on the terminator on the clouds of Kerbin
+	- Fixed OpenGL/mac/linux support
+	- Fixed alphamap support for the in-game painter
+	- Fixed some issues with scatterer sunColor not applying to volumetrics
+	- Fixed error messages with the screen not being divisible by 4 * 2 and clouds not loading
+	
+	
+Other:
+	- TimeSettings now have a unit setting and can be set in hours instead of seconds, defaults to seconds for retrocompatiblity.
+	- RaymarchedVolume color settings now accepts both 255 RGB colors and 1-0 float colors
+	- Added brush hardness setting in the painter
+
+
+******* 2.0.1 - 14/01/23 *******
+- Fixed issue in Eve config causing the multiple layers and the cloud Pillars not to show up
+- Scatterer sunflare now affected/hidden by clouds and other volumetrics
+
+
+******* 2.0.0 - 13/01/23 *******
+- First patreon release
